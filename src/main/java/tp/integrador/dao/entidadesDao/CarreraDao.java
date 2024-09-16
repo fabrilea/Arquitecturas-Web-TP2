@@ -1,6 +1,7 @@
 package tp.integrador.dao.entidadesDao;
 
 import tp.integrador.dao.Dao;
+import tp.integrador.dto.CarreraDto;
 import tp.integrador.entidades.Carrera;
 import tp.integrador.entidades.Estudiante;
 
@@ -62,6 +63,17 @@ public class CarreraDao implements Dao<CarreraDao> {
         return query.getSingleResult();
     }
 
+    public static List<CarreraDto> obtenerCarrerasPorEstudiantesInscriptos(EntityManager em) {
+        String jpql = "SELECT new tp.integrador.dto.CarreraDto(c.nombre, COUNT(e.id)) " +
+                "FROM Carrera c " +
+                "JOIN c.estudiantes e " +
+                "WHERE e.id IS NOT NULL " +
+                "GROUP BY c.nombre " +
+                "ORDER BY COUNT(e.id) DESC";
+
+        TypedQuery<CarreraDto> query = em.createQuery(jpql, CarreraDto.class);
+        return query.getResultList();
+    }
 
 }
 

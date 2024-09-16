@@ -1,6 +1,7 @@
 package tp.integrador.dao.entidadesDao;
 
 import tp.integrador.dao.Dao;
+import tp.integrador.dto.EstudianteCarreraDto;
 import tp.integrador.entidades.Carrera;
 import tp.integrador.entidades.Estudiante;
 import tp.integrador.entidades.EstudianteCarrera;
@@ -9,6 +10,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.sql.SQLException;
+import java.util.Comparator;
+import java.util.List;
 
 public class EstudianteCarreraDao implements Dao<EstudianteCarrera> {
 
@@ -64,4 +67,23 @@ public class EstudianteCarreraDao implements Dao<EstudianteCarrera> {
         query.setParameter("id", id);
         return query.getSingleResult();
     }
+
+    public static List<EstudianteCarreraDto> generarReporteCarreras(EntityManager em) {
+        String jpql = "SELECT new tp.integrador.dto.EstudianteCarreraDto(c.nombre, YEAR(ec.fechaInscripcion), " +
+                "COUNT(ec.estudiante.id), " +
+                "SUM(CASE WHEN e.graduado = TRUE THEN 1 ELSE 0 END)) " +
+                "FROM EstudianteCarrera ec " +
+                "JOIN ec.carrera c " +
+                "JOIN ec.estudiante e " +
+                "GROUP BY c.nombre, YEAR(ec.fechaInscripcion)";
+
+        TypedQuery<EstudianteCarreraDto> query = em.createQuery(jpql, EstudianteCarreraDto.class);
+        List<EstudianteCarreraDto> resultados = query.getResultList();
+
+        // Ordenar los resultados en memoria por año (segundo campo del DTO)
+        resultados.sort(Comparator.comparing(EstudianteCarreraDto::getAnio));
+
+        return resultados;
+    }
+
 }

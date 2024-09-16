@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.sql.*;
+import java.util.List;
 
 
 public class EstudianteDao implements Dao<EstudianteDao> {
@@ -73,5 +74,37 @@ public class EstudianteDao implements Dao<EstudianteDao> {
         TypedQuery<Estudiante> query = em.createQuery(jpql, Estudiante.class);
         query.setParameter("id", id);
         return query.getSingleResult();
+    }
+
+    public static List<Estudiante> obtenerEstudiantesPorApellidoAsc(EntityManager em) {
+        String jpql = "SELECT e FROM Estudiante e ORDER BY e.apellido";
+        TypedQuery<Estudiante> query = em.createQuery(jpql, Estudiante.class);
+        return query.getResultList();
+    }
+
+    public static Estudiante obtenerEstudiantePorLU(EntityManager em, long lu) {
+        String jpql = "SELECT e FROM Estudiante e WHERE e.lu = :lu";
+        TypedQuery<Estudiante> query = em.createQuery(jpql, Estudiante.class);
+        query.setParameter("lu", lu);
+        return query.getSingleResult();
+    }
+
+    public static List<Estudiante> obtenerEstudiantesPorGenero(EntityManager em, String genero) {
+        String jpql = "SELECT e FROM Estudiante e WHERE e.genero = :genero";
+        TypedQuery<Estudiante> query = em.createQuery(jpql, Estudiante.class);
+        query.setParameter("genero", genero);
+        return query.getResultList();
+    }
+
+    public static List<Estudiante> obtenerEstudiantesPorCarreraYCiudad(EntityManager em, String nombre, String ciudad) {
+        String jpql = "SELECT e " +
+                "FROM EstudianteCarrera ec " +
+                "JOIN ec.estudiante e " +
+                "JOIN ec.carrera c " +
+                "WHERE c.nombre = :nombre AND e.ciudad = :ciudad";
+        TypedQuery<Estudiante> query = em.createQuery(jpql, Estudiante.class);
+        query.setParameter("nombre", nombre);
+        query.setParameter("ciudad", ciudad);
+        return query.getResultList();
     }
 }

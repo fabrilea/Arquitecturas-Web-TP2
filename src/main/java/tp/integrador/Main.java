@@ -1,17 +1,17 @@
 package tp.integrador;
 
+import tp.integrador.dao.entidadesDao.CarreraDao;
+import tp.integrador.dao.entidadesDao.EstudianteCarreraDao;
+import tp.integrador.dao.entidadesDao.EstudianteDao;
 import tp.integrador.entidades.Carrera;
 import tp.integrador.entidades.Estudiante;
 import tp.integrador.entidades.EstudianteCarrera;
 import tp.integrador.factory.AbstractFactory;
-import tp.integrador.factory.MySQLDAOFactory;
 import tp.integrador.utils.HelperMySQL;
-import tp.integrador.utils.Select;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.text.SimpleDateFormat;
 import java.sql.Date;
 import java.util.List;
 
@@ -28,6 +28,10 @@ public class Main {
 
         AbstractFactory chosenFactory = AbstractFactory.getDAOFactory(1);
 
+        EstudianteDao estudiante = chosenFactory.getEstudianteDao();
+        CarreraDao carrera = chosenFactory.getCarreraDao();
+        EstudianteCarreraDao estudianteCarrera = chosenFactory.getEstudianteCarreraDao();
+
         /* Punto A */
         Estudiante e = new Estudiante(99, "Juan", "Gomez", 22, "Masculino", 12352378, "Córdoba", 1009, true);
         chosenFactory.getEstudianteDao().insert(em, e);
@@ -40,12 +44,12 @@ public class Main {
 
         /* Punto C */
         System.out.println("Estudiante por LU: ");
-        System.out.println(Select.obtenerEstudiantePorLU(em, 12345));
+        System.out.println(estudiante.obtenerEstudiantePorLU(em, 12345));
 
         /* Punto D */
 
         System.out.println("Estudiantes listados por Apellido: ");
-        System.out.println(Select.obtenerEstudiantesPorApellidoAsc(em));
+        System.out.println(estudiante.obtenerEstudiantesPorApellidoAsc(em));
 
         System.out.println("/////////////////////////////////////");
         System.out.println("/////////////////////////////////////");
@@ -54,7 +58,7 @@ public class Main {
 
         /* Punto E */
         System.out.println("Estudiantes por género: ");
-        System.out.println(Select.obtenerEstudiantesPorGenero(em, "Masculino"));
+        System.out.println(estudiante.obtenerEstudiantesPorGenero(em, "Masculino"));
 
 
         System.out.println("/////////////////////////////////////");
@@ -65,12 +69,7 @@ public class Main {
 
         /* Punto F */
         System.out.println("Carreras por Inscriptos: ");
-        List<Object[]> resultados = Select.obtenerCarrerasPorEstudiantesInscriptos(em);
-        for (Object[] resultado : resultados) {
-            String nombreCarrera = (String) resultado[0];
-            Long numeroEstudiantes = (Long) resultado[1];
-            System.out.println("Carrera: " + nombreCarrera + ", Estudiantes inscriptos: " + numeroEstudiantes);
-        }
+        System.out.println(carrera.obtenerCarrerasPorEstudiantesInscriptos(em));
         System.out.println("/////////////////////////////////////");
         System.out.println("/////////////////////////////////////");
 
@@ -78,8 +77,7 @@ public class Main {
 
         /* Punto G */
         System.out.println("Estudiantes Ordenados por Carrera y Ciudad: ");
-        System.out.println(Select.obtenerEstudiantesPorCarreraYCiudad(em, "Ingeniería en Sistemas", "Buenos Aires"));
-        em.getTransaction().commit();
+        System.out.println(estudiante.obtenerEstudiantesPorCarreraYCiudad(em, "Ingeniería en Sistemas", "Buenos Aires"));
 
         System.out.println("/////////////////////////////////////");
         System.out.println("/////////////////////////////////////");
@@ -89,15 +87,7 @@ public class Main {
         /* Ejercicio 3 */
 
         System.out.println("Generar Repoterte: ");
-        List<Object[]> reporte = Select.generarReporteCarreras(em);
-        for (Object[] fila : reporte) {
-            String nombreCarrera = (String) fila[0];
-            Integer anio = (Integer) fila[1];
-            Long inscriptos = (Long) fila[2];
-            Long egresados = (Long) fila[3];
-            System.out.println("Carrera: " + nombreCarrera + ", Año: " + anio +
-                    ", Inscriptos: " + inscriptos + ", Egresados: " + egresados);
-        }
+        System.out.println(estudianteCarrera.generarReporteCarreras(em));
 
 
         em.close();
