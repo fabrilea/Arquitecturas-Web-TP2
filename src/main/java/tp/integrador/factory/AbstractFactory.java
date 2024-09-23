@@ -1,19 +1,19 @@
 package tp.integrador.factory;
 
 
-import tp.integrador.dao.entidadesDao.CarreraDao;
-import tp.integrador.dao.entidadesDao.EstudianteCarreraDao;
-import tp.integrador.dao.entidadesDao.EstudianteDao;
+import tp.integrador.repositories.entitiesRepositories.CarreraRepository;
+import tp.integrador.repositories.entitiesRepositories.EstudianteCarreraRepository;
+import tp.integrador.repositories.entitiesRepositories.EstudianteRepository;
 
 public abstract class AbstractFactory {
     public static final int MYSQL_JDBC = 1;
-    public abstract EstudianteDao getEstudianteDao();
-    public abstract CarreraDao getCarreraDao();
-    public abstract EstudianteCarreraDao getEstudianteCarreraDao();
-    public static AbstractFactory getDAOFactory(int whichFactory) {
+    public abstract EstudianteRepository getEstudianteRepository();
+    public abstract CarreraRepository getCarreraRepository();
+    public abstract EstudianteCarreraRepository getEstudianteCarreraRepository();
+    public static AbstractFactory getREPOSITORYFactory(int whichFactory) {
         switch (whichFactory) {
             case MYSQL_JDBC : {
-                return MySQLDAOFactory.getInstance();
+                return MySQLREPOSITORYFactory.getInstance();
             }
             default: {
                 return null;

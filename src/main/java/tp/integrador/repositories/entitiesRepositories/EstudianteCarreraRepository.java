@@ -1,6 +1,6 @@
-package tp.integrador.dao.entidadesDao;
+package tp.integrador.repositories.entitiesRepositories;
 
-import tp.integrador.dao.Dao;
+import tp.integrador.repositories.Repository;
 import tp.integrador.dto.EstudianteCarreraDto;
 import tp.integrador.entidades.Carrera;
 import tp.integrador.entidades.Estudiante;
@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.Comparator;
 import java.util.List;
 
-public class EstudianteCarreraDao implements Dao<EstudianteCarrera> {
+public class EstudianteCarreraRepository implements Repository<EstudianteCarrera> {
 
     @Override
     public Object select(EntityManager em, long id) {

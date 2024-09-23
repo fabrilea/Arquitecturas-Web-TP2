@@ -16,7 +16,7 @@ public class Carrera {
     @Column
     private Integer duracion;
 
-    @OneToMany(mappedBy = "carrera", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "carrera", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<EstudianteCarrera> estudiantes;
 
     public Carrera() {

@@ -1,20 +1,18 @@
-package tp.integrador.dao.entidadesDao;
+package tp.integrador.repositories.entitiesRepositories;
 
-import tp.integrador.dao.Dao;
+import tp.integrador.repositories.Repository;
 import tp.integrador.dto.CarreraDto;
 import tp.integrador.entidades.Carrera;
-import tp.integrador.entidades.Estudiante;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
-public class CarreraDao implements Dao<CarreraDao> {
+public class CarreraRepository implements Repository<CarreraRepository> {
 
-    public CarreraDao() {
+    public CarreraRepository() {
         ;
     }
 

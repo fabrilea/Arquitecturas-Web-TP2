@@ -1,44 +1,24 @@
-package tp.integrador.entidades;
+package tp.integrador.dto;
 
+import tp.integrador.entidades.Estudiante;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.Column;
 
-@Entity
-public class Estudiante {
-    @Id
-    private long id;
-
-    @Column
+public class EstudianteDto {
     private String nombre;
-    @Column
     private String apellido;
-    @Column
     private int edad;
-    @Column
     private String genero;
-    @Column
     private int dni;
-    @Column
     private String ciudad;
-    @Column
     private long lu;
-    @Column
     private boolean graduado;
 
-
-    @OneToMany(mappedBy = "estudiante", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<EstudianteCarrera> carreras;
-
-    public Estudiante() {
+    public EstudianteDto() {
         super();
-        this.carreras = new ArrayList<EstudianteCarrera>();
     }
 
-    public Estudiante(int id, String nombre, String apellido, int edad, String genero, int dni, String ciudad, long lu, boolean graduado) {
-        super();
-        this.id = id;
+    public EstudianteDto(String nombre, String apellido, int edad, String genero, int dni, String ciudad, long lu, boolean graduado) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.edad = edad;
@@ -49,19 +29,10 @@ public class Estudiante {
         this.graduado = graduado;
     }
 
-    // Getters y Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getNombre() {
         return nombre;
     }
+
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -75,11 +46,11 @@ public class Estudiante {
         this.apellido = apellido;
     }
 
-    public Integer getEdad() {
+    public int getEdad() {
         return edad;
     }
 
-    public void setEdad(Integer edad) {
+    public void setEdad(int edad) {
         this.edad = edad;
     }
 
@@ -107,45 +78,33 @@ public class Estudiante {
         this.ciudad = ciudad;
     }
 
-    public Long getLu() {
+    public long getLu() {
         return lu;
     }
 
-    public void setLu(Long lu) {
+    public void setLu(long lu) {
         this.lu = lu;
     }
 
-    public Boolean getGraduado() {
+    public boolean isGraduado() {
         return graduado;
     }
 
-    public void setGraduado(Boolean graduado) {
+    public void setGraduado(boolean graduado) {
         this.graduado = graduado;
     }
 
-
-
-    public List<EstudianteCarrera> getCarreras() {
-        if (this.carreras == null) {
-            this.carreras = new ArrayList<>();
-        }
-        return this.carreras;
-    }
-
-
     @Override
     public String toString() {
-        return "Estudiante{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
+        return "EstudianteDto{" +
+                "nombre='" + nombre + '\'' +
                 ", apellido='" + apellido + '\'' +
                 ", edad=" + edad +
                 ", genero='" + genero + '\'' +
                 ", dni=" + dni +
                 ", ciudad='" + ciudad + '\'' +
                 ", lu=" + lu +
-                ", graduado=" + graduado + "\n" +
-                ", carreras=" + carreras +
-                '}' + "\n";
+                ", graduado=" + graduado +
+                '}';
     }
 }

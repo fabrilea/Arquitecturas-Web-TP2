@@ -1,28 +1,28 @@
 package tp.integrador.factory;
 
-import tp.integrador.dao.entidadesDao.CarreraDao;
-import tp.integrador.dao.entidadesDao.EstudianteCarreraDao;
-import tp.integrador.dao.entidadesDao.EstudianteDao;
+import tp.integrador.repositories.entitiesRepositories.CarreraRepository;
+import tp.integrador.repositories.entitiesRepositories.EstudianteCarreraRepository;
+import tp.integrador.repositories.entitiesRepositories.EstudianteRepository;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class MySQLDAOFactory extends AbstractFactory {
-    private static MySQLDAOFactory instance = null;
+public class MySQLREPOSITORYFactory extends AbstractFactory {
+    private static MySQLREPOSITORYFactory instance = null;
 
     public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
     public static final String uri = "jdbc:mysql://localhost:3306/integrador2";
     public static Connection conn;
 
-    private MySQLDAOFactory() {
+    private MySQLREPOSITORYFactory() {
     }
 
     /*Singleton*/
-    public static synchronized MySQLDAOFactory getInstance() {
+    public static synchronized MySQLREPOSITORYFactory getInstance() {
         if (instance == null) {
-            instance = new MySQLDAOFactory();
+            instance = new MySQLREPOSITORYFactory();
         }
         return instance;
     }
@@ -58,17 +58,17 @@ public class MySQLDAOFactory extends AbstractFactory {
     }
 
     @Override
-    public EstudianteDao getEstudianteDao() {
-        return new EstudianteDao();
+    public EstudianteRepository getEstudianteRepository() {
+        return new EstudianteRepository();
     }
 
     @Override
-    public CarreraDao getCarreraDao() {
-        return new CarreraDao();
+    public CarreraRepository getCarreraRepository() {
+        return new CarreraRepository();
     }
 
     @Override
-    public EstudianteCarreraDao getEstudianteCarreraDao(){
-        return new EstudianteCarreraDao();
+    public EstudianteCarreraRepository getEstudianteCarreraRepository(){
+        return new EstudianteCarreraRepository();
     }
 }
