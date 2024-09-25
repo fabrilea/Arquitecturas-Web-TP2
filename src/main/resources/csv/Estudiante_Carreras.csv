@@ -1,4 +1,4 @@
-id,estudiante_id,carrera_id,antiguedad
-1,1,1,2,2016-01-01
-2,2,2,4,2017-01-01
-3,3,3,3,2019-01-01
+id_estudiante,id_carrera,fechaInscripcion,fechaGraduacion,estaGraduado
+1,1,2020-03-15,2023-12-20,true
+2,2,2021-04-10,NULL,false
+3,1,2019-08-22,2023-07-01,true

@@ -1,8 +1,9 @@
 package tp.integrador;
 
-import tp.integrador.repositories.entitiesRepositories.CarreraRepository;
-import tp.integrador.repositories.entitiesRepositories.EstudianteCarreraRepository;
-import tp.integrador.repositories.entitiesRepositories.EstudianteRepository;
+import tp.integrador.entidades.EstudianteCarreraPK;
+import tp.integrador.repositories.entitiesRepositories.CarreraRepositoryImpl;
+import tp.integrador.repositories.entitiesRepositories.EstudianteCarreraRepositoryImpl;
+import tp.integrador.repositories.entitiesRepositories.EstudianteRepositoryImpl;
 import tp.integrador.entidades.Carrera;
 import tp.integrador.entidades.Estudiante;
 import tp.integrador.entidades.EstudianteCarrera;
@@ -27,18 +28,21 @@ public class Main {
 
         AbstractFactory chosenFactory = AbstractFactory.getREPOSITORYFactory(1);
 
-        EstudianteRepository estudiante = chosenFactory.getEstudianteRepository();
-        CarreraRepository carrera = chosenFactory.getCarreraRepository();
-        EstudianteCarreraRepository estudianteCarrera = chosenFactory.getEstudianteCarreraRepository();
+        EstudianteRepositoryImpl estudiante = chosenFactory.getEstudianteRepository();
+        CarreraRepositoryImpl carrera = chosenFactory.getCarreraRepository();
+        EstudianteCarreraRepositoryImpl estudianteCarrera = chosenFactory.getEstudianteCarreraRepository();
 
         /* Punto A */
-        Estudiante e = new Estudiante(99, "Juan", "Gomez", 22, "Masculino", 12352378, "Córdoba", 1009, true);
+        Estudiante e = new Estudiante(99, "Juan", "Gomez", 22, "Masculino", 12352378, "Córdoba", 1009
+        );
         chosenFactory.getEstudianteRepository().insert(em, e);
 
         /* Punto B */
-        Carrera c = (Carrera) chosenFactory.getCarreraRepository().select(em, 1);
+        Carrera c = chosenFactory.getCarreraRepository().findById(em, (long) 1);
 
-        EstudianteCarrera ec = new EstudianteCarrera(4, e, c, 4, Date.valueOf("2020-01-01"));
+        EstudianteCarreraPK ecpk = new EstudianteCarreraPK(99, 2);
+
+        EstudianteCarrera ec = new EstudianteCarrera(ecpk, Date.valueOf("2020-01-01"), null, false, e, c);
         chosenFactory.getEstudianteCarreraRepository().insert(em, ec);
 
         /* Punto C */
@@ -49,7 +53,7 @@ public class Main {
         System.out.println("/////////////////////////////////////");
 
         System.out.println();
-        
+
         /* Punto D */
 
         System.out.println("Estudiantes listados por Apellido: ");

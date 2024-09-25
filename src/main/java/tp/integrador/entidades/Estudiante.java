@@ -24,8 +24,6 @@ public class Estudiante {
     private String ciudad;
     @Column
     private long lu;
-    @Column
-    private boolean graduado;
 
 
     @OneToMany(mappedBy = "estudiante", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -36,7 +34,7 @@ public class Estudiante {
         this.carreras = new ArrayList<EstudianteCarrera>();
     }
 
-    public Estudiante(int id, String nombre, String apellido, int edad, String genero, int dni, String ciudad, long lu, boolean graduado) {
+    public Estudiante(int id, String nombre, String apellido, int edad, String genero, int dni, String ciudad, long lu) {
         super();
         this.id = id;
         this.nombre = nombre;
@@ -46,7 +44,6 @@ public class Estudiante {
         this.dni = dni;
         this.ciudad = ciudad;
         this.lu = lu;
-        this.graduado = graduado;
     }
 
     // Getters y Setters
@@ -115,14 +112,6 @@ public class Estudiante {
         this.lu = lu;
     }
 
-    public Boolean getGraduado() {
-        return graduado;
-    }
-
-    public void setGraduado(Boolean graduado) {
-        this.graduado = graduado;
-    }
-
 
 
     public List<EstudianteCarrera> getCarreras() {
@@ -144,7 +133,6 @@ public class Estudiante {
                 ", dni=" + dni +
                 ", ciudad='" + ciudad + '\'' +
                 ", lu=" + lu +
-                ", graduado=" + graduado + "\n" +
                 ", carreras=" + carreras +
                 '}' + "\n";
     }

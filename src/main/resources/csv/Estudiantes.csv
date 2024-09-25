@@ -1,4 +1,4 @@
-id,nombre,apellido,edad,genero,dni,ciudad,lu,graduado
-1,Carlos,Pérez,22,Masculino,12345678,Buenos Aires,12345,False
-2,Ana,Martínez,23,Femenino,87654321,Rosario,67890,True
-3,Luis,Gómez,24,Masculino,11223344,Córdoba,11223,False
+id,nombre,apellido,edad,genero,dni,ciudad,lu
+1,Carlos,Pérez,22,Masculino,12345678,Buenos Aires,12345
+2,Ana,Martínez,23,Femenino,87654321,Rosario,67890
+3,Luis,Gómez,24,Masculino,11223344,Córdoba,11223

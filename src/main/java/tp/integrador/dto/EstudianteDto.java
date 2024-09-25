@@ -12,13 +12,12 @@ public class EstudianteDto {
     private int dni;
     private String ciudad;
     private long lu;
-    private boolean graduado;
 
     public EstudianteDto() {
         super();
     }
 
-    public EstudianteDto(String nombre, String apellido, int edad, String genero, int dni, String ciudad, long lu, boolean graduado) {
+    public EstudianteDto(String nombre, String apellido, int edad, String genero, int dni, String ciudad, long lu) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.edad = edad;
@@ -26,7 +25,6 @@ public class EstudianteDto {
         this.dni = dni;
         this.ciudad = ciudad;
         this.lu = lu;
-        this.graduado = graduado;
     }
 
     public String getNombre() {
@@ -86,14 +84,6 @@ public class EstudianteDto {
         this.lu = lu;
     }
 
-    public boolean isGraduado() {
-        return graduado;
-    }
-
-    public void setGraduado(boolean graduado) {
-        this.graduado = graduado;
-    }
-
     @Override
     public String toString() {
         return "EstudianteDto{" +
@@ -104,7 +94,6 @@ public class EstudianteDto {
                 ", dni=" + dni +
                 ", ciudad='" + ciudad + '\'' +
                 ", lu=" + lu +
-                ", graduado=" + graduado +
                 '}';
     }
 }

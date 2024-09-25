@@ -1,8 +1,8 @@
 package tp.integrador.factory;
 
-import tp.integrador.repositories.entitiesRepositories.CarreraRepository;
-import tp.integrador.repositories.entitiesRepositories.EstudianteCarreraRepository;
-import tp.integrador.repositories.entitiesRepositories.EstudianteRepository;
+import tp.integrador.repositories.entitiesRepositories.CarreraRepositoryImpl;
+import tp.integrador.repositories.entitiesRepositories.EstudianteCarreraRepositoryImpl;
+import tp.integrador.repositories.entitiesRepositories.EstudianteRepositoryImpl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
@@ -58,17 +58,17 @@ public class MySQLREPOSITORYFactory extends AbstractFactory {
     }
 
     @Override
-    public EstudianteRepository getEstudianteRepository() {
-        return new EstudianteRepository();
+    public EstudianteRepositoryImpl getEstudianteRepository() {
+        return EstudianteRepositoryImpl.getInstance();
     }
 
     @Override
-    public CarreraRepository getCarreraRepository() {
-        return new CarreraRepository();
+    public CarreraRepositoryImpl getCarreraRepository() {
+        return CarreraRepositoryImpl.getInstance();
     }
 
     @Override
-    public EstudianteCarreraRepository getEstudianteCarreraRepository(){
-        return new EstudianteCarreraRepository();
+    public EstudianteCarreraRepositoryImpl getEstudianteCarreraRepository(){
+        return EstudianteCarreraRepositoryImpl.getInstance();
     }
 }

@@ -6,45 +6,69 @@ import java.util.Date;
 @Entity
 public class EstudianteCarrera {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @EmbeddedId
+    private EstudianteCarreraPK id;
+
+    private Date fechaInscripcion;
+
+    private Date fechaGraduacion;
+
+    private boolean estaGraduado;
 
     @ManyToOne
-    @JoinColumn(name = "estudiante_id")
+    @MapsId("id_estudiante")
     private Estudiante estudiante;
 
     @ManyToOne
-    @JoinColumn(name = "carrera_id")
+    @MapsId("id_carrera")
     private Carrera carrera;
 
-    @Column
-    private Integer antiguedad;
-
-    @Column
-    private Date fechaInscripcion;
 
     public EstudianteCarrera() {
         super();
     }
 
-    public EstudianteCarrera(long id, Estudiante estudiante, Carrera carrera, Integer antiguedad, Date fechaInscripcion) {
-        super();
+    public EstudianteCarrera(EstudianteCarreraPK id, Date fechaInscripcion, Date fechaGraduacion, boolean estaGraduado, Estudiante estudiante, Carrera carrera) {
         this.id = id;
+        this.fechaInscripcion = fechaInscripcion;
+        this.fechaGraduacion = fechaGraduacion;
+        this.estaGraduado = estaGraduado;
         this.estudiante = estudiante;
         this.carrera = carrera;
-        this.antiguedad = antiguedad;
-        this.fechaInscripcion = fechaInscripcion;
     }
 
     // Getters y Setters
 
-    public Long getId() {
+    public EstudianteCarreraPK getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(EstudianteCarreraPK id) {
         this.id = id;
+    }
+
+    public Date getFechaInscripcion() {
+        return fechaInscripcion;
+    }
+
+    public void setFechaInscripcion(Date fechaInscripcion) {
+        this.fechaInscripcion = fechaInscripcion;
+    }
+
+    public Date getFechaGraduacion() {
+        return fechaGraduacion;
+    }
+
+    public void setFechaGraduacion(Date graduacion) {
+        this.fechaGraduacion = graduacion;
+    }
+
+    public boolean isEstaGraduado() {
+        return estaGraduado;
+    }
+
+    public void setEstaGraduado(boolean estaGraduado) {
+        this.estaGraduado = estaGraduado;
     }
 
     public Estudiante getEstudiante() {
@@ -63,30 +87,15 @@ public class EstudianteCarrera {
         this.carrera = carrera;
     }
 
-    public Integer getAntiguedad() {
-        return antiguedad;
-    }
-
-    public void setAntiguedad(Integer antiguedad) {
-        this.antiguedad = antiguedad;
-    }
-
-    public Date getFechaInscripcion() {
-        return fechaInscripcion;
-    }
-
-    public void setFechaInscripcion(Date fechaInscripcion) {
-        this.fechaInscripcion = fechaInscripcion;
-    }
-
     @Override
     public String toString() {
         return "EstudianteCarrera{" +
                 "id=" + id +
-                ", estudiante=" + estudiante.getId() +
-                ", carrera=" + carrera.getNombre() +
-                ", antiguedad=" + antiguedad + " años" +
                 ", fecha de inscripción=" + fechaInscripcion +
+                ", fecha de graduación=" + fechaGraduacion +
+                ", estaGraduado=" + estaGraduado +
+                ", estudiante=" + estudiante +
+                ", carrera=" + carrera +
                 '}' + "\n";
     }
 }

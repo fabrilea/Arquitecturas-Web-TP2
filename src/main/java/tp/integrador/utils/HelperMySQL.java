@@ -2,26 +2,22 @@ package tp.integrador.utils;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
 import tp.integrador.entidades.Carrera;
 import tp.integrador.entidades.Estudiante;
 import tp.integrador.entidades.EstudianteCarrera;
+import tp.integrador.entidades.EstudianteCarreraPK;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 
@@ -76,6 +72,7 @@ public class HelperMySQL {
         // Cargar los datos desde los archivos CSV
         cargarEstudiantes(em, "src/main/resources/csv/Estudiantes.csv");
         cargarCarreras(em, "src/main/resources/csv/Carreras.csv");
+        cargarEstudianteCarreraPK(em, "src/main/resources/csv/Estudiante_Carreras_PK.csv");
         cargarEstudianteCarrera(em, "src/main/resources/csv/Estudiante_Carreras.csv");
 
         em.close();
@@ -101,7 +98,6 @@ public class HelperMySQL {
             estudiante.setDni(Integer.parseInt(row[5]));
             estudiante.setCiudad(row[6]);
             estudiante.setLu(Long.parseLong(row[7]));
-            estudiante.setGraduado(Boolean.parseBoolean(row[8]));
 
             em.persist(estudiante);
         }
@@ -121,7 +117,6 @@ public class HelperMySQL {
             Carrera carrera = new Carrera();
             carrera.setId(Long.parseLong(row[0]));
             carrera.setNombre(row[1]);
-            carrera.setDuracion(Integer.parseInt(row[2]));
 
             em.merge(carrera);
         }
@@ -138,17 +133,64 @@ public class HelperMySQL {
         for (int i = 1; i < records.size(); i++) {
             String[] row = records.get(i);
 
+            // Crear la clave compuesta (EstudianteCarreraPK)
+            EstudianteCarreraPK pk = new EstudianteCarreraPK(Long.parseLong(row[0]), Long.parseLong(row[1]));
+
+            // Crear la entidad EstudianteCarrera y asignarle la clave primaria compuesta
             EstudianteCarrera estudianteCarrera = new EstudianteCarrera();
-            estudianteCarrera.setId(Long.parseLong(row[0]));
+            estudianteCarrera.setId(pk);
 
-            Estudiante estudiante = em.find(Estudiante.class, Long.parseLong(row[1]));
-            Carrera carrera = em.find(Carrera.class, Long.parseLong(row[2]));
+            // Encontrar las entidades Estudiante y Carrera
+            Estudiante estudiante = em.find(Estudiante.class, Long.parseLong(row[0]));
+            Carrera carrera = em.find(Carrera.class, Long.parseLong(row[1]));
 
+            // Asignar estudiante y carrera
             estudianteCarrera.setEstudiante(estudiante);
             estudianteCarrera.setCarrera(carrera);
-            estudianteCarrera.setAntiguedad(Integer.parseInt(row[3]));
-            estudianteCarrera.setFechaInscripcion(Date.valueOf(row[4]));
 
+            // Asignar fecha de inscripción y fecha de graduación
+            estudianteCarrera.setFechaInscripcion(Date.valueOf(row[2]));
+
+            // Verificar si la fecha de graduación es null
+            if (!row[3].equalsIgnoreCase("NULL")) {
+                estudianteCarrera.setFechaGraduacion(Date.valueOf(row[3]));
+            }
+
+            // Asignar si está graduado o no
+            estudianteCarrera.setEstaGraduado(Boolean.parseBoolean(row[4]));
+
+            // Persistir o fusionar el objeto en la base de datos
+            em.merge(estudianteCarrera);
+        }
+
+        em.getTransaction().commit();
+    }
+
+    public static void cargarEstudianteCarreraPK(EntityManager em, String archivoCsv) throws IOException, CsvException {
+        CSVReader reader = new CSVReader(new FileReader(archivoCsv));
+        List<String[]> records = reader.readAll();
+
+        em.getTransaction().begin();
+
+        for (int i = 1; i < records.size(); i++) {
+            String[] row = records.get(i);
+
+            // Crear la clave compuesta (EstudianteCarreraPK)
+            EstudianteCarreraPK pk = new EstudianteCarreraPK(Long.parseLong(row[0]), Long.parseLong(row[1]));
+
+            // Crear la entidad EstudianteCarrera y asignarle la clave primaria compuesta
+            EstudianteCarrera estudianteCarrera = new EstudianteCarrera();
+            estudianteCarrera.setId(pk);
+
+            // Buscar el estudiante y la carrera
+            Estudiante estudiante = em.find(Estudiante.class, pk.getId_estudiante());
+            Carrera carrera = em.find(Carrera.class, pk.getId_carrera());
+
+            // Asignar estudiante y carrera
+            estudianteCarrera.setEstudiante(estudiante);
+            estudianteCarrera.setCarrera(carrera);
+
+            // Guardar la relación
             em.merge(estudianteCarrera);
         }
 
