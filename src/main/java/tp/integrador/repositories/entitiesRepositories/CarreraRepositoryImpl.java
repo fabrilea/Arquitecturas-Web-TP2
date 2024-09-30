@@ -11,6 +11,7 @@ import java.util.List;
 
 public class CarreraRepositoryImpl implements CarreraRepository {
 
+    private static CarreraRepositoryImpl cr;
 
     @Override
     public void insert(EntityManager em, Carrera carrera) {
@@ -45,7 +46,10 @@ public class CarreraRepositoryImpl implements CarreraRepository {
     }
 
     public static CarreraRepositoryImpl getInstance() {
-        return new CarreraRepositoryImpl();
+        if (cr == null) {
+            cr = new CarreraRepositoryImpl();
+        }
+        return cr;
     }
 
 

@@ -16,6 +16,8 @@ import java.util.List;
 
 public class EstudianteCarreraRepositoryImpl implements EstudianteCarreraRepository {
 
+    private static EstudianteCarreraRepositoryImpl ec;
+
     @Override
     public void insert(EntityManager em, EstudianteCarrera estudianteCarrera) {
         em.getTransaction().begin(); // La transacción se inicia acá y una vez activada no es necesaria repetirla en los otros insert/update
@@ -50,7 +52,10 @@ public class EstudianteCarreraRepositoryImpl implements EstudianteCarreraReposit
     }
 
     public static EstudianteCarreraRepositoryImpl getInstance() {
-        return new EstudianteCarreraRepositoryImpl();
+        if (ec == null) {
+            ec = new EstudianteCarreraRepositoryImpl();
+        }
+        return ec;
     }
 
     public static List<EstudianteCarreraDto> generarReporteCarreras(EntityManager em) {

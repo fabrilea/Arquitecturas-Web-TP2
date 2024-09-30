@@ -13,6 +13,8 @@ import java.util.List;
 
 public class EstudianteRepositoryImpl implements EstudianteRepository {
 
+    private static EstudianteRepositoryImpl er;
+
     @Override
     public void insert(EntityManager em, Estudiante estudiante) {
         em.persist(estudiante);  // Insertar el objeto estudiante
@@ -46,7 +48,10 @@ public class EstudianteRepositoryImpl implements EstudianteRepository {
     }
 
     public static EstudianteRepositoryImpl getInstance() {
-        return new EstudianteRepositoryImpl();
+        if (er == null) {
+            er = new EstudianteRepositoryImpl();
+        }
+        return er;
     }
 
     public static List<EstudianteDto> obtenerEstudiantesPorApellidoAsc(EntityManager em) {
