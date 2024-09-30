@@ -52,7 +52,7 @@ public class EstudianteCarreraDto {
     @Override
     public String toString() {
         return "EstudianteCarreraDto{" +
-                "nombre='" + nombre + '\'' +
+                "nombre=" + nombre +
                 ", anio=" + anio +
                 ", inscriptos=" + inscriptos +
                 ", egresados=" + egresados +

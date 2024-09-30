@@ -94,7 +94,7 @@ public class Main {
 
         /* Ejercicio 3 */
 
-        System.out.println("Generar Repoterte: ");
+        System.out.println("Generar Reporte: ");
         System.out.println(estudianteCarrera.generarReporteCarreras(em));
 
 
